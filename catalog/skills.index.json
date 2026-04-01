@@ -1,0 +1,72 @@
+{
+  "package": {
+    "name": "thinkcraft",
+    "version": "0.1.0",
+    "kind": "bundled-skill-authoring-source",
+    "language": "en",
+    "runtime_independent": true,
+    "description": "Thinking-oriented bundled-skill authoring-source package."
+  },
+  "skills": [
+    {
+      "name": "brainstorm",
+      "description": "Expands the problem space and generates alternative idea directions.",
+      "aliases": ["idea-generate", "diverge", "ideate"],
+      "when_to_use": "Use when a topic is ambiguous or early-stage and you need to quickly open possible directions, options, and hypotheses.",
+      "argument_hint": "Provide the problem or topic, context, goal, and known constraints.",
+      "allowed_tools": ["read", "glob", "grep", "webfetch"],
+      "user_invocable": true,
+      "source_file": "skills/brainstorm.md"
+    },
+    {
+      "name": "clarify",
+      "description": "Reduces ambiguity and makes the problem more explicit.",
+      "aliases": ["clarify-request", "disambiguate", "scope"],
+      "when_to_use": "Use when the request, goal, or terms are ambiguous and assumptions need to be surfaced before framing the problem.",
+      "argument_hint": "Provide the current request, ambiguous parts, known definitions, and open questions.",
+      "allowed_tools": ["read", "glob", "grep"],
+      "user_invocable": true,
+      "source_file": "skills/clarify.md"
+    },
+    {
+      "name": "analyze",
+      "description": "Examines constraints, risks, dependencies, and cause-effect relationships.",
+      "aliases": ["inspect", "evaluate", "breakdown"],
+      "when_to_use": "Use when you need a systematic review of impacts, technical limits, root causes, or trade-off areas.",
+      "argument_hint": "Provide the topic to examine, current evidence, constraints, and the questions that must be answered.",
+      "allowed_tools": ["read", "glob", "grep", "webfetch"],
+      "user_invocable": true,
+      "source_file": "skills/analyze.md"
+    },
+    {
+      "name": "design",
+      "description": "Shapes a structural solution for the selected direction.",
+      "aliases": ["architect", "structure", "shape"],
+      "when_to_use": "Use when alternatives have been narrowed and the solution flow, component boundaries, data shape, or interaction structure must be defined.",
+      "argument_hint": "Provide the target architecture area, requirements, constraints, and preferred direction.",
+      "allowed_tools": ["read", "glob", "grep"],
+      "user_invocable": true,
+      "source_file": "skills/design.md"
+    },
+    {
+      "name": "decide",
+      "description": "Selects among alternatives with explicit rationale.",
+      "aliases": ["choose", "tradeoff", "select"],
+      "when_to_use": "Use when multiple reasonable options exist and decision criteria must be made explicit to select one direction.",
+      "argument_hint": "Provide the options, decision criteria, weightings, and acceptable risk level.",
+      "allowed_tools": ["read", "glob", "grep"],
+      "user_invocable": true,
+      "source_file": "skills/decide.md"
+    },
+    {
+      "name": "reflect",
+      "description": "Reviews the quality and gaps of the generated outcome after the fact.",
+      "aliases": ["review-thinking", "retrospective", "reassess"],
+      "when_to_use": "Use when a generated plan, decision, or design needs its assumptions checked again and gaps, risks, or follow-up actions identified.",
+      "argument_hint": "Provide the output to review, success criteria, and any suspicious points.",
+      "allowed_tools": ["read", "glob", "grep"],
+      "user_invocable": true,
+      "source_file": "skills/reflect.md"
+    }
+  ]
+}

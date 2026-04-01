@@ -1,0 +1,26 @@
+projection: bundled
+source_model: canonical-authoring-source
+target_runtime: bundled-skill-runtime
+
+inputs:
+  manifest: manifest.yaml
+  bodies: skills/*.md
+
+field_mapping:
+  package.name: package.name
+  package.version: package.version
+  package.kind: package.kind
+  skills[].name: bundled_skill.name
+  skills[].description: bundled_skill.description
+  skills[].aliases: bundled_skill.aliases
+  skills[].when_to_use: bundled_skill.when_to_use
+  skills[].argument_hint: bundled_skill.argument_hint
+  skills[].allowed_tools: bundled_skill.allowed_tools
+  skills[].user_invocable: bundled_skill.user_invocable
+  skills[].source_file: bundled_skill.source_path
+  file(skills[].source_file): bundled_skill.instructions
+
+notes:
+  - Canonical metadata remains in manifest.yaml.
+  - Canonical instruction bodies remain in skills/*.md.
+  - This projection is intended for generated or embedded runtime catalogs.

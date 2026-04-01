@@ -1,0 +1,22 @@
+projection: disk-commands
+source_model: canonical-authoring-source
+target_runtime: claude-code-compatible-disk-commands
+
+inputs:
+  manifest: manifest.yaml
+  templates: templates/commands/*.md
+
+field_mapping:
+  template.frontmatter.name: command.name
+  template.frontmatter.description: command.description
+  template.frontmatter.argument_hint: command.argument_hint
+  template.frontmatter.source_package: command.source_package
+  template.frontmatter.source_template: command.source_template
+  template.frontmatter.projection: command.projection
+  template.frontmatter.runtime_compatibility: command.runtime_compatibility
+  template.body: command.body
+
+notes:
+  - The template files are canonical within the disk-command projection surface.
+  - Files copied into .claude/commands/*.md are Claude Code compatible projections, not canonical package source.
+  - Runtime-specific discovery happens outside this package.

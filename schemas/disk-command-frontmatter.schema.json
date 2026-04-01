@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/thinkcraft/disk-command-frontmatter.schema.json",
+  "title": "thinkcraft disk command frontmatter schema",
+  "type": "object",
+  "required": [
+    "name",
+    "description",
+    "argument_hint",
+    "source_package",
+    "source_template",
+    "projection",
+    "runtime_compatibility"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "enum": [
+        "brainstorm",
+        "clarify",
+        "analyze",
+        "design",
+        "decide",
+        "reflect"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "argument_hint": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_package": {
+      "type": "string",
+      "const": "thinkcraft"
+    },
+    "source_template": {
+      "type": "string",
+      "pattern": "^templates/commands/[a-z0-9-]+\\.md$"
+    },
+    "projection": {
+      "type": "string",
+      "const": "disk-commands"
+    },
+    "runtime_compatibility": {
+      "type": "string",
+      "const": "claude-code"
+    }
+  }
+}

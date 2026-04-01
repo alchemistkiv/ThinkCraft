@@ -1,0 +1,22 @@
+package: thinkcraft
+canonical_source:
+  manifest: manifest.yaml
+  skills_root: skills/
+  command_templates_root: templates/commands/
+
+projections:
+  - id: bundled
+    description: Project canonical source into a bundled skill catalog for embedded or generated runtime use.
+    source_inputs:
+      - manifest.yaml
+      - skills/*.md
+    adapter_mapping: adapters/bundled/mapping.yaml
+    target_runtime: bundled-skill-runtime
+
+  - id: disk-commands
+    description: Project canonical command templates into Claude Code compatible command files on disk.
+    source_inputs:
+      - manifest.yaml
+      - templates/commands/*.md
+    adapter_mapping: adapters/disk-commands/mapping.yaml
+    target_runtime: claude-code-compatible-disk-commands

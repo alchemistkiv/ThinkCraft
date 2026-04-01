@@ -1,0 +1,16 @@
+package:
+  name: fixture-pack
+  version: 0.0.1
+  kind: bundled-skill-authoring-source
+  language: en
+  runtime_independent: true
+  description: Fixture manifest with a missing source_file field.
+
+skills:
+  - name: fixture-skill
+    description: Example fixture skill.
+    aliases: [fixture-alias]
+    when_to_use: Use for fixture validation only.
+    argument_hint: Provide any fixture input.
+    allowed_tools: [read]
+    user_invocable: true
