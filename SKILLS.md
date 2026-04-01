@@ -1,61 +1,61 @@
 # Skill Catalog
 
-This file gives a quick authoring-side view of the skill family in this repository. It does not describe runtime behavior. It shows what each canonical source skill is for, how the set fits together, and how the package projects into runtime-facing formats.
+This file gives the package-level view of the `thinkcraft` skill family from the authoring side. It describes the canonical source skills, how they fit together, and how they project into runtime-facing forms without changing the repository's source-of-record role.
 
-## Package principles
+## Package stance
 
-- This directory is the authoring-source layer for bundled skill content.
-- This directory also defines projection templates for disk-based command delivery.
-- Each skill covers one thinking mode or a clean transition between modes.
-- All skill files keep the same section skeleton: `Goal`, `When to use`, `Inputs`, `Process`, `Output shape`, `Guardrails`, `Handoff`.
-- Skill text is written to be direct, plainspoken, and teammate-like rather than ceremonial or report-heavy.
-- Where prioritization matters, outputs should show ranking, weighting, or comparison basis instead of flattening everything into one list.
-- Metadata is normalized in `manifest.yaml` and kept in a form that maps cleanly to the Rust `BundledSkill` model.
-- `.claude/commands/*.md` is treated as a Claude Code compatible projection, not the canonical source of the package.
-
-## Source and projection model
-
-- `source`: `manifest.yaml`, `skills/*.md`, and `templates/commands/*.md`
-- `projection`: `bundled` or `disk-commands`
-- `target runtime`: the host that consumes a projected artifact
-
-The skill markdown files under `skills/` remain the canonical instruction source for the bundled skill surface. The command markdown files under `.claude/commands/` are only a compatible projection for disk-based usage.
+- `thinkcraft` is an authoring-source repository for bundled thinking skills
+- Skill markdown under `skills/` is canonical source
+- Command templates under `templates/commands/` are canonical source for the disk-command projection path
+- `.claude/commands/*.md` is a Claude Code compatible projection shape, not the source of truth
+- The repository aims for direct, plainspoken, teammate-like writing rather than ceremonial prompt prose
 
 ## Skill family
 
-### `brainstorm`
-Opens the solution space, groups candidate directions, and carries forward a short scored shortlist instead of a loose pile of ideas.
-
 ### `clarify`
-Reduces ambiguity in a request, makes assumptions explicit, and stabilizes the problem frame with natural transitions and minimal ceremony.
+
+Use `clarify` when the request is still unstable. It reduces ambiguity, surfaces assumptions, and gives the next step a cleaner problem frame.
+
+### `brainstorm`
+
+Use `brainstorm` when the option space needs to open up. It generates multiple viable directions and carries forward a shortlist instead of a loose pile of ideas.
 
 ### `analyze`
-Examines constraints, risks, dependencies, and cause-and-effect relationships, then ranks the real risks instead of treating every concern equally.
+
+Use `analyze` when constraints, risks, dependencies, or cause-and-effect relationships need a more systematic pass. It ranks the real risks instead of flattening everything into one undifferentiated list.
 
 ### `design`
-Turns a chosen direction into an actionable structure, flow, component boundary, or interface shape while keeping open decisions and comparison basis visible.
+
+Use `design` when one direction needs a workable structure. It shapes flows, boundaries, interfaces, and open decisions while keeping comparison logic visible.
 
 ### `decide`
-Compares options with shared weighted criteria, gating constraints, and confidence notes so the final choice is easier to defend.
+
+Use `decide` when multiple reasonable options remain. It compares them with explicit criteria, weighting, accepted risks, and confidence notes.
 
 ### `reflect`
-Reviews a plan, decision, or design after the fact and audits whether the scorecard, assumptions, and confidence levels were actually sound.
 
-## Suggested reading order
+Use `reflect` when a plan, decision, or design needs an after-the-fact audit. It checks whether the reasoning, assumptions, and scorecard quality actually hold up.
 
-- Use `clarify` when the problem statement is still blurry.
-- Use `brainstorm` when the solution space is still early and needs expansion.
-- Use `analyze` when impacts, risks, or dependencies need to be understood.
-- Use `design` when structure and flow need to be shaped.
-- Use `decide` when one direction must be selected among alternatives.
-- Use `reflect` when the quality of the current outcome needs to be tested.
+## Shared source structure
 
-## Runtime-facing projection files
+Every source skill keeps the same section skeleton:
 
-If an end user wants Claude Code compatible command files, the supported path in this package is:
+- `Goal`
+- `When to use`
+- `Inputs`
+- `Process`
+- `Output shape`
+- `Guardrails`
+- `Handoff`
 
-- start from `templates/commands/*.md`
-- project or copy them into `.claude/commands/*.md`
-- invoke them in the target runtime
+That shared structure keeps the package easier to validate, compare, and project.
 
-That gives a usable runtime-facing format while preserving the repository root as the authoring source of truth.
+## Source and projection reminder
+
+The repository follows a `source -> projection -> runtime` model.
+
+- `source`: `manifest.yaml`, `skills/*.md`, `templates/commands/*.md`
+- `projection`: exported shapes such as `bundled` and `disk-commands`
+- `runtime`: any host that consumes those projected artifacts
+
+Usage in Claude Code compatible projects is a downstream projection story. The authoring source remains here.

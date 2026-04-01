@@ -1,70 +1,144 @@
 # thinkcraft
 
-`thinkcraft` is the authoring-source package for structured thinking skills and related command projections.
+Authoring-source package for portable thinking skills and Claude Code compatible command projections.
 
-This is not the runtime artifact and it is not an implementation layer. This directory holds canonical source markdown, package metadata, projection templates, schemas, and docs that later project into runtime-specific targets elsewhere.
+`thinkcraft` is a standalone repository that defines a small family of structured thinking skills as canonical source. It is designed for people who want a clean authoring layer first: stable skill text, normalized metadata, documented projections, and validation that keeps the package readable and portable.
 
-## Purpose of this package
+## What It Is
 
-- Keep the six thinking skills in one authoring package: `brainstorm`, `clarify`, `analyze`, `design`, `decide`, `reflect`
-- Preserve the shared section skeleton across all skills: `Goal`, `When to use`, `Inputs`, `Process`, `Output shape`, `Guardrails`, `Handoff`
-- Keep package and skill metadata normalized in `manifest.yaml`
-- Document a clear `source -> projection -> target runtime` model
-- Treat `.claude/commands/*.md` as a Claude Code compatible projection rather than canonical source
-- Maintain a consistent voice: direct, plainspoken, teammate-like, and light on ceremony
-- Add clearer prioritization support so outputs are easier to compare, rank, and hand off
-- Keep field names in a form that maps deterministically to a bundled skill model without making this package itself runtime-specific
+- An authoring-source repository for six thinking skills: `brainstorm`, `clarify`, `analyze`, `design`, `decide`, `reflect`
+- A canonical metadata model in `manifest.yaml`
+- A documented source tree that can project into multiple delivery shapes without moving authorship into runtime files
+- A portable package that treats Claude Code compatible command files as a projection, not as the source of truth
+- A small validation layer for checking source structure and release readiness
 
-## Package contents
+## What It Is Not
 
-- `manifest.yaml`: source-of-truth package and skill metadata
-- `skills/*.md`: authoring markdown sources for the bundled thinking skills
-- `templates/commands/*.md`: canonical templates for the disk-command projection
-- `catalog/skills.index.json`: machine-readable skill catalog aligned with the manifest model
-- `catalog/exports.yaml`: declared projection surfaces and their targets
-- `schemas/*.json`: validation contracts for manifest data and disk-command frontmatter
-- `adapters/*/mapping.yaml`: field mappings from source into projection targets
-- `docs/bundled-mapping.md`: mapping between authoring fields and bundled representation
-- `docs/integration-surfaces.md`: source, projection, and runtime integration model
-- `docs/disk-command-format.md`: Claude Code compatible disk-command format
-- `docs/portability.md`: portability goals and boundaries
-- `docs/mvp.md`: MVP boundary, non-goals, and acceptance criteria
-- `SKILLS.md`: short catalog of the skill family in this package
-- `LICENSE`: MIT license for open-source release
-- `CHANGELOG.md`: release history for this package
-- `CONTRIBUTING.md`: contribution guidelines for documentation and skill authoring
-- `release-checklist.md`: package-level release readiness checklist
+- Not a runtime package
+- Not an installer
+- Not a package manager integration
+- Not a registry, loader, or execution engine
+- Not a command discovery implementation
+- Not a tool-permission enforcement layer
 
-## Package stance
+This repository preserves the authoring identity of the package. It describes how source can project into runtime-facing forms, but it does not pretend to be the runtime itself.
 
-- The skill family should sound like a sharp teammate, not a consultant.
-- The writing should lead with the point and keep structure light unless heavier formatting earns its keep.
-- The package should avoid obvious restatement, ceremonial framing, and management-speak.
-- Decision-oriented skills should make prioritization visible instead of leaving everything at the same weight.
+## Skill Set
 
-## Source, projection, target runtime
+The package ships six thinking-oriented source skills with a shared structure and a consistent voice.
 
-This package uses a three-layer model:
+- `clarify` reduces ambiguity and stabilizes the request
+- `brainstorm` opens the option space and carries forward a shortlist
+- `analyze` examines constraints, dependencies, and ranked risks
+- `design` shapes the chosen direction into a practical structure
+- `decide` compares alternatives with explicit criteria and rationale
+- `reflect` reviews whether the output, assumptions, and scorecard hold up after the fact
 
-- `source`: canonical authoring files in the repository root
-- `projection`: deterministic exported shapes such as `bundled` and `disk-commands`
-- `target runtime`: the environment that consumes those projected artifacts
+Every source skill keeps the same section skeleton: `Goal`, `When to use`, `Inputs`, `Process`, `Output shape`, `Guardrails`, `Handoff`.
 
-The important boundary is that projection files are compatible delivery artifacts, not canonical source.
+## Source -> Projection -> Runtime Model
 
-For example, `.claude/commands/*.md` is defined here as a Claude Code compatible projection. It is useful for end-user consumption, but it does not replace `manifest.yaml`, `skills/*.md`, or `templates/commands/*.md` as the authoring source of record.
+`thinkcraft` is organized around a three-layer model.
 
-## Out of scope
+- `source`: the canonical authoring layer in this repository
+- `projection`: deterministic output shapes derived from source
+- `target runtime`: any host that consumes a projected artifact
 
-This package does not define or implement:
+In practice, that means:
 
-- runtime behavior
-- package manager behavior
-- skill selection algorithms
-- registry integration
-- tool policy enforcement
-- runtime wiring
-- command discovery implementation
-- command execution implementation
+- `manifest.yaml` and `skills/*.md` define the bundled skill authoring source
+- `templates/commands/*.md` defines the canonical command-template source for disk-command projection
+- `.claude/commands/*.md` is a Claude Code compatible projection shape, whether shown in `examples/project/` or copied into another repo
 
-Because of that boundary, this directory should be treated as bundled skill authoring source rather than a runnable runtime package.
+The important boundary is simple: projection files are useful delivery artifacts, but they are not the canonical source of the package.
+
+## Quick Start
+
+Read the repository as an authoring package first.
+
+```bash
+git clone <repo-url>
+cd thinkcraft
+python tests/validate_package.py
+```
+
+Then inspect the source-of-record files:
+
+1. `README.md` for package position and release context
+2. `manifest.yaml` for package and skill metadata
+3. `skills/*.md` for canonical skill bodies
+4. `templates/commands/*.md` for Claude Code compatible command-template source
+
+## Try It In Claude Code Compatible Projects
+
+If you want to try the projected command form in a Claude Code compatible project:
+
+1. Start from `examples/project/.claude/commands/`
+2. Copy one or more command files into your target project's `.claude/commands/` directory
+3. Keep frontmatter and provenance fields intact
+4. Invoke the command by name inside the target project
+
+That workflow is intentionally projection-oriented. The copied command files are for usage in the target project, while this repository remains the authoring-source package.
+
+## Repository Structure
+
+```text
+thinkcraft/
+|- manifest.yaml
+|- skills/
+|- templates/commands/
+|- adapters/
+|- catalog/
+|- schemas/
+|- docs/
+|- examples/project/
+|- tests/
+|- README.md
+|- SKILLS.md
+|- CHANGELOG.md
+`- release-checklist.md
+```
+
+Key files and directories:
+
+- `manifest.yaml` stores package identity and normalized skill metadata
+- `skills/` stores canonical markdown instructions for the skill family
+- `templates/commands/` stores canonical source templates for disk-command projection
+- `adapters/` documents how source fields map into projection targets
+- `catalog/` describes exported surfaces and skill indexing metadata
+- `schemas/` defines validation contracts for manifest and command frontmatter shapes
+- `docs/` captures architecture notes, projection guidance, release metadata, and portability boundaries
+- `examples/project/` demonstrates the Claude Code compatible projection in a project-shaped layout
+- `tests/validate_package.py` validates the source package rather than any runtime
+
+## Validation
+
+The repository includes a lightweight validator for the authoring source tree.
+
+```bash
+python tests/validate_package.py
+```
+
+It checks package metadata, source file references, required markdown sections, allowed tool names, and basic release-file presence. The validator is intentionally source-focused: it verifies the package shape without turning this repository into a runtime or installer.
+
+## Roadmap
+
+- Keep the six core thinking skills stable and internally consistent
+- Strengthen projection documentation and provenance between source and exported shapes
+- Expand validation coverage for schemas, projection metadata, and catalog alignment
+- Add more release-facing documentation for standalone distribution and preview drops
+- Explore additional thinking skills only after the current source model stays clean under real use
+
+## Release Status
+
+`thinkcraft` is at `v0.1.0` and should be treated as an early public preview of the authoring-source package.
+
+- The source model is established and validated
+- The repository is suitable for review, experimentation, and projection into Claude Code compatible command files
+- Surface details can still evolve as the standalone package position hardens
+
+See `docs/releases/v0.1.0-preview.md` for the standalone preview note and `CHANGELOG.md` for release history.
+
+## License
+
+Released under the MIT License. See `LICENSE`.

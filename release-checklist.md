@@ -1,58 +1,65 @@
 # Release Checklist
 
-Use this checklist before publishing or tagging an open-source release of `thinkcraft`.
+Use this checklist before publishing or tagging a standalone release of `thinkcraft`.
+
+## Positioning and messaging
+
+- Confirm `README.md` leads with the authoring-source identity before any usage guidance.
+- Confirm release-facing docs describe the repository as runtime-independent source, not as an installer or runtime package.
+- Confirm `.claude/commands/*.md` is described as a Claude Code compatible projection and never as canonical source.
+- Confirm release notes can stand alone for someone landing on the repo or release page with no prior context.
+- Confirm repository and release copy uses `source -> projection -> runtime` consistently.
 
 ## Content and language
 
-- Confirm the canonical source language is English and `manifest.yaml` uses `language: en`.
-- Confirm release-facing source documentation is fully in English.
-- Confirm all skill files use English prose while preserving the required section names.
-- Confirm all command templates and example projection files use English prose.
-- Confirm terminology is consistent across `README.md`, `SKILLS.md`, docs, manifest, and skill files.
-- Confirm the package consistently describes `source -> projection -> target runtime`.
+- Confirm release-facing content is fully in English.
+- Confirm `manifest.yaml` keeps `language: en`.
+- Confirm all six skill source files remain in English with the required shared headings.
+- Confirm `README.md`, `SKILLS.md`, `CHANGELOG.md`, and release docs use the same authoring-source terminology.
+- Confirm example and projection docs stay aligned with the landing-page positioning.
 
-## Manifest validation
+## Standalone release notes
 
-- Confirm `manifest.yaml` keeps the existing structural shape.
+- Confirm `CHANGELOG.md` includes the release version and date.
+- Confirm `docs/releases/<version>.md` exists for the release being published.
+- Confirm the release note opens with a short preview or status statement.
+- Confirm the release note includes: what the repo is, what is included, what is intentionally out of scope, validation status, and preview caveats.
+- Confirm `docs/github-metadata.md` matches the current repository positioning and can be reused for GitHub description, About text, topics, and release-page copy.
+- Confirm release-note wording does not imply packaged installation, automatic runtime wiring, or production stability beyond the stated preview level.
+
+## Manifest and source integrity
+
+- Confirm `manifest.yaml` preserves the existing structural shape.
 - Confirm every skill entry has `name`, `description`, `aliases`, `when_to_use`, `argument_hint`, `allowed_tools`, `user_invocable`, and `source_file`.
 - Confirm every `source_file` points to an existing file under `skills/`.
-- Confirm manifest values are release-appropriate, reader-facing, and sufficient as source metadata in English.
-- Confirm `catalog/skills.index.json` remains aligned with the manifest field set and values.
+- Confirm `catalog/skills.index.json` still aligns with manifest values.
+- Confirm canonical source remains traceable from metadata to markdown files.
 
-## Projection validation
+## Projection integrity
 
-- Confirm `catalog/exports.yaml` defines at least the `bundled` and `disk-commands` projections.
-- Confirm `adapters/bundled/mapping.yaml` and `adapters/disk-commands/mapping.yaml` describe the intended field movement clearly.
-- Confirm `.claude/commands/*.md` is described as a Claude Code compatible projection rather than canonical source.
-- Confirm command templates preserve frontmatter plus markdown body.
-- Confirm `schemas/disk-command-frontmatter.schema.json` matches the documented frontmatter fields.
+- Confirm `catalog/exports.yaml` defines the documented projections.
+- Confirm adapter mappings under `adapters/` still describe intended field movement clearly.
+- Confirm command templates preserve their frontmatter and markdown body structure.
+- Confirm example project files remain clearly labeled as projections.
+- Confirm release copy explains usage only after authoring-source context is established.
 
 ## Required files
 
 - Confirm `README.md` exists.
 - Confirm `SKILLS.md` exists.
-- Confirm `LICENSE` exists and contains the MIT license text.
+- Confirm `LICENSE` exists and contains MIT text.
 - Confirm `CHANGELOG.md` exists.
 - Confirm `CONTRIBUTING.md` exists.
 - Confirm `release-checklist.md` exists.
-- Confirm `docs/bundled-mapping.md` and `docs/mvp.md` exist.
-- Confirm `docs/integration-surfaces.md`, `docs/disk-command-format.md`, and `docs/portability.md` exist.
+- Confirm `docs/github-metadata.md` exists.
+- Confirm `docs/releases/` contains the current release note.
+- Confirm `docs/bundled-mapping.md`, `docs/integration-surfaces.md`, `docs/disk-command-format.md`, `docs/portability.md`, and `docs/mvp.md` exist.
 - Confirm `schemas/manifest.schema.json` and `schemas/disk-command-frontmatter.schema.json` exist.
-- Confirm `templates/commands/` and `examples/project/` exist.
 
-## Structure validation
+## Validation and release execution
 
-- Confirm the source tree still acts as authoring source rather than runtime code.
-- Confirm no runtime or Rust code was introduced in this package.
-- Confirm no package manager or runtime implementation was introduced for projections.
-- Confirm no Node package metadata file was added.
-- Confirm all six skill files preserve the same section sequence.
-- Confirm the source-level structure remains readable for bundling and future validation.
-- Confirm projection artifacts are traceable back to canonical source files.
-
-## Release tagging notes
-
-- Update `CHANGELOG.md` with the release version and date before tagging.
-- Tag releases in a way that matches this repository's documented release conventions.
-- If the package is versioned independently later, keep the tag naming scheme explicit and documented.
-- Include a short release note stating that `thinkcraft` is an authoring-source package with documented bundled and disk-command projections.
+- Run `python tests/validate_package.py` from the repository root.
+- Confirm the validator returns exit code `0`.
+- Confirm warnings, if any, are understood and acceptable for the release.
+- Stage the final release docs together so the preview note, changelog, and README stay in sync.
+- Tag and publish using a version string that matches the standalone repository release note.

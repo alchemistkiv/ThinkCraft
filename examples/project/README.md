@@ -1,36 +1,42 @@
-# Example Project
+# Example Project Projection
 
-This example shows the `disk-commands` projection of `thinkcraft`.
+This directory shows the `disk-commands` projection of `thinkcraft` in a project-shaped layout.
 
-The files under `examples/project/.claude/commands/` are Claude Code compatible projection files. They are examples of runtime-facing command files, not the canonical source for the package.
+The files under `examples/project/.claude/commands/` are Claude Code compatible command files. They are runtime-facing projection examples, not canonical package source.
 
-## Try the flow
+## What this example demonstrates
 
-1. Copy one or more files from `examples/project/.claude/commands/` into your own project's `.claude/commands/` directory.
-2. Keep the frontmatter intact so provenance and projection metadata stay visible.
-3. Invoke the command by name in Claude Code.
+- How projected command files can appear inside a compatible project
+- How provenance and frontmatter can stay visible in copied command files
+- How the authoring-source package stays separate from the project that consumes the projection
 
-Example flow:
+## Try it in a compatible project
+
+1. Copy one or more files from `examples/project/.claude/commands/` into your target project's `.claude/commands/` directory.
+2. Keep the frontmatter intact.
+3. Invoke the command by name in the target project.
 
 ```text
-copy brainstorm.md -> .claude/commands/brainstorm.md -> invoke brainstorm
+examples/project/.claude/commands/brainstorm.md
+-> target-project/.claude/commands/brainstorm.md
+-> invoke brainstorm
 ```
 
-## Recommended usage order
+## Recommended command flow
 
-- Start with `clarify` if the request is ambiguous.
-- Use `brainstorm` to expand the option space.
-- Use `analyze` to understand risks and constraints.
-- Use `design` to structure the chosen direction.
-- Use `decide` when one option must win.
-- Use `reflect` to review the result after the fact.
+- Start with `clarify` when the request is ambiguous
+- Use `brainstorm` to expand candidate directions
+- Use `analyze` to examine risks and constraints
+- Use `design` to shape the selected direction
+- Use `decide` when one option must win
+- Use `reflect` to audit the result afterward
 
-## Source and projection reminder
+## Source reminder
 
-The canonical authoring source remains in this repository.
+The canonical source for this package still lives outside this example:
 
-- `skills/*.md` are canonical source for the bundled skill surface.
-- `templates/commands/*.md` are canonical source for the disk-command surface.
-- `.claude/commands/*.md` is a Claude Code compatible projection.
+- `skills/*.md` for bundled-skill source
+- `templates/commands/*.md` for command-template source
+- `manifest.yaml` for normalized metadata
 
-This example exists to show how an end user can copy projected command files into a project and try them immediately.
+This example exists to demonstrate projection usage without changing the package's authoring-source identity.
