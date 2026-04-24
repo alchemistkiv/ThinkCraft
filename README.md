@@ -10,7 +10,7 @@ Authoring-source package for portable thinking skills and Claude Code compatible
 - A canonical metadata model in `manifest.yaml`
 - A documented source tree that can project into multiple delivery shapes without moving authorship into runtime files
 - A portable package that treats Claude Code compatible command files as a projection, not as the source of truth
-- A small validation layer for checking source structure and release readiness
+- A small validation layer for checking source structure, projection drift, and release readiness
 
 ## What It Is Not
 
@@ -60,6 +60,7 @@ Read the repository as an authoring package first.
 git clone <repo-url>
 cd thinkcraft
 python tests/validate_package.py
+python tests/check_projection_drift.py
 ```
 
 Then inspect the source-of-record files:
@@ -68,6 +69,7 @@ Then inspect the source-of-record files:
 2. `manifest.yaml` for package and skill metadata
 3. `skills/*.md` for canonical skill bodies
 4. `templates/commands/*.md` for Claude Code compatible command-template source
+5. `docs/workflows/*.md` for practical thinking-flow examples
 
 ## Try It In Claude Code Compatible Projects
 
@@ -79,6 +81,31 @@ If you want to try the projected command form in a Claude Code compatible projec
 4. Invoke the command by name inside the target project
 
 That workflow is intentionally projection-oriented. The copied command files are for usage in the target project, while this repository remains the authoring-source package.
+
+## Refresh Disk-Command Projections
+
+The disk-command projection examples are generated from `templates/commands/*.md` into `examples/project/.claude/commands/*.md`.
+
+```bash
+python scripts/project_disk_commands.py
+```
+
+To check whether the examples drifted from their canonical templates:
+
+```bash
+python tests/check_projection_drift.py
+```
+
+The check is intentionally narrow. It verifies that example command files match their command-template source, without adding runtime behavior or command discovery to the package.
+
+## Workflow Examples
+
+The `docs/workflows/` directory shows how the skills can be chained in practical work without making `thinkcraft` a planner or runtime.
+
+- `docs/workflows/product-decision.md` shows a product decision flow from clarification through reflection
+- `docs/workflows/codebase-review.md` shows a repository review flow for package, docs, projection, and release-readiness work
+
+These documents are usage guidance. They do not change the source/projection/runtime boundary.
 
 ## Repository Structure
 
@@ -92,6 +119,7 @@ thinkcraft/
 |- schemas/
 |- docs/
 |- examples/project/
+|- scripts/
 |- tests/
 |- README.md
 |- SKILLS.md
@@ -107,19 +135,21 @@ Key files and directories:
 - `adapters/` documents how source fields map into projection targets
 - `catalog/` describes exported surfaces and skill indexing metadata
 - `schemas/` defines validation contracts for manifest and command frontmatter shapes
-- `docs/` captures architecture notes, projection guidance, release metadata, and portability boundaries
+- `docs/` captures architecture notes, projection guidance, release metadata, portability boundaries, and workflow examples
 - `examples/project/` demonstrates the Claude Code compatible projection in a project-shaped layout
-- `tests/validate_package.py` validates the source package rather than any runtime
+- `scripts/` contains repository maintenance helpers for deterministic projection updates
+- `tests/` validates source package integrity and projection drift rather than runtime behavior
 
 ## Validation
 
-The repository includes a lightweight validator for the authoring source tree.
+The repository includes lightweight validators for the authoring source tree and disk-command projection examples.
 
 ```bash
 python tests/validate_package.py
+python tests/check_projection_drift.py
 ```
 
-It checks package metadata, source file references, required markdown sections, allowed tool names, and basic release-file presence. The validator is intentionally source-focused: it verifies the package shape without turning this repository into a runtime or installer.
+`validate_package.py` checks package metadata, source file references, required markdown sections, allowed tool names, and basic release-file presence. `check_projection_drift.py` verifies that example disk commands still match their canonical templates. Both checks are source-focused: they verify the package shape without turning this repository into a runtime or installer.
 
 ## Roadmap
 
